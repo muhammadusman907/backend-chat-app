@@ -10,7 +10,7 @@ const app = express();
 const server = createServer(app);
 const io = new Server(server, {
   methods: ["GET", "POST"],
-  cors: { origin: "*:*" },
+  cors: { origin: "http://localhost:5173/" },
 });
 app.use(cors());
 app.use(express.json());
