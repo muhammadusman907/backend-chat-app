@@ -12,7 +12,7 @@ const io = new Server(server, {
   methods: ["GET", "POST"],
   cors: { origin: "http://localhost:5173/" },
 });
-app.use(cors());
+app.use(cors({ origin: "*", credentials: true, optionSuccessStatus: 200 }));
 app.use(express.json());
 const PORT = process.env.PORT || 5000;
 app.use("/auth", authRouter);
