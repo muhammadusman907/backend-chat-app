@@ -18,12 +18,12 @@ const PORT = process.env.PORT || 3000;
 app.use("/auth", authRouter);
 app.use("/users", userRouter);
 app.use("/message", (req, res, next) => next(), messageRouter);
-io.on("connection", (socket) => {
+// io.on("connection", (socket) => {
   // console.log("socket id" , socket.id)
-  socket.on("send_message", (message) => {
-    console.log("message socket ----->", message);
-    io.emit("receive_message", message);
-  });
+  // socket.on("send_message", (message) => {
+  //   console.log("message socket ----->", message);
+  //   io.emit("receive_message", message);
+  // });
   // socket.on("TYPING", (typingIndctr) => {
   //   console.log(typingIndctr);
   //   io.emit("RECEIVE_TYPING", typingIndctr);
@@ -33,7 +33,7 @@ io.on("connection", (socket) => {
   //   console.log(dscntyping);
   //   io.emit("DISCONNECT_TYPING", dscntyping);
   // });
-});
+// });
 try {
   const db = mongoose.connection;
   db.on("error", console.error.bind("connection error"));
