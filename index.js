@@ -14,7 +14,7 @@ const io = new Server(server, {
 });
 app.use(cors({ origin: "*", credentials: true, optionSuccessStatus: 200 }));
 app.use(express.json());
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 app.use("/auth", authRouter);
 app.use("/users", userRouter);
 app.use("/message", (req, res, next) => next(), messageRouter);
