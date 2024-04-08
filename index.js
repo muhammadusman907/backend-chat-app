@@ -12,7 +12,7 @@ console.log(process.env.PORT);
 var app = express();
 var server = http.createServer(app);
 
-app.use(cors({ origin: "*", credentials: true, optionSuccessStatus: 200 }));
+app.use(cors());
 app.use(express.json());
 
 var PORT = process.env.PORT;
