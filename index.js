@@ -26,16 +26,9 @@ socket.on("send_message", (message) => {
   console.log("message socket ----->", message);
   io.emit("receive_message", message);
 });
-// socket.on("TYPING", (typingIndctr) => {
-//   console.log(typingIndctr);
-//   io.emit("RECEIVE_TYPING", typingIndctr);
+
 });
 
-// socket.on("TYPING_DISCONNECT", (dscntyping) => {
-//   console.log(dscntyping);
-//   io.emit("DISCONNECT_TYPING", dscntyping);
-// });
-// });
 try {
   const db = mongoose.connection;
   db.on("error", console.error.bind("connection error"));
