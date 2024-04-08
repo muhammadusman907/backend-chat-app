@@ -16,17 +16,16 @@ const io = new Server(server, {
 });
 app.use(cors({ origin: "*", credentials: true, optionSuccessStatus: 200 }));
 app.use(express.json());
-const PORT = process.env.PORT ;
+const PORT = process.env.PORT;
 app.use("/auth", authRouter);
 app.use("/users", userRouter);
 app.use("/message", (req, res, next) => next(), messageRouter);
 io.on("connection", (socket) => {
-console.log("socket id" , socket.id)
-socket.on("send_message", (message) => {
-  console.log("message socket ----->", message);
-  io.emit("receive_message", message);
-});
-
+  console.log("socket id", socket.id);
+  socket.on("send_message", (message) => {
+    console.log("message socket ----->", message);
+    io.emit("receive_message", message);
+  });
 });
 
 try {
@@ -78,4 +77,4 @@ server.listen(PORT, () => {
   console.log("server is running");
 });
 
-export { io };
+export { io, app };
