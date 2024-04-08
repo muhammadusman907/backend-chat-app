@@ -5,17 +5,12 @@ var mongoose = require("./db/index.js");
 var authRouter = require("./router/routerAuth.js");
 var userRouter = require("./router/userRouter.js").userRouter;
 var messageRouter = require("./router/messageRouter.js").messageRouter;
-var socketIO = require("socket.io");
 require("dotenv/config");
 
 console.log(process.env.PORT);
 
 var app = express();
 var server = http.createServer(app);
-var io = socketIO(server, {
-  methods: ["GET", "POST"],
-  cors: { origin: "*" },
-});
 
 app.use(cors({ origin: "*", credentials: true, optionSuccessStatus: 200 }));
 app.use(express.json());
@@ -31,14 +26,6 @@ app.use(
   },
   messageRouter
 );
-
-io.on("connection", function (socket) {
-  console.log("socket id", socket.id);
-  socket.on("send_message", function (message) {
-    console.log("message socket ----->", message);
-    io.emit("receive_message", message);
-  });
-});
 
 try {
   var db = mongoose.connection;
@@ -92,6 +79,5 @@ server.listen(PORT, function () {
 });
 
 module.exports = {
-  io: io,
   app: app,
 };
