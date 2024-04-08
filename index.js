@@ -78,6 +78,3 @@ server.listen(PORT, function () {
   console.log("server is running");
 });
 
-module.exports = {
-  app: app,
-};
