@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-mongoose.connect(
-  `mongodb+srv://muhammadusman90712:usman@cluster0.tu7pnzi.mongodb.net/`
-);
+import "dotenv/config";
+console.log(process.env.API_KEY + "" )
+mongoose.connect(process.env.API_KEY);
 export default mongoose;
