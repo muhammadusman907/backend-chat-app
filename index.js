@@ -6,7 +6,11 @@ var authRouter = require("./router/routerAuth.js");
 var userRouter = require("./router/userRouter.js").userRouter;
 var messageRouter = require("./router/messageRouter.js").messageRouter;
 require("dotenv/config");
-
+const httpServer = require("http").createServer();
+const io = require("socket.io")(httpServer, {
+  methods: ["GET", "POST"],
+  cors: { origin: "*" }
+});
 console.log(process.env.PORT);
 
 var app = express();
