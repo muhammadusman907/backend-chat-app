@@ -1,4 +1,5 @@
 var express = require("express");
+var app = express();
 var cors = require("cors");
 var http = require("http");
 var mongoose = require("./db/index.js");
@@ -6,20 +7,25 @@ var authRouter = require("./router/routerAuth.js");
 var userRouter = require("./router/userRouter.js").userRouter;
 var messageRouter = require("./router/messageRouter.js").messageRouter;
 require("dotenv/config");
-const httpServer = require("http").createServer();
+
+const httpServer = require("http").createServer(app);
 const io = require("socket.io")(httpServer, {
   methods: ["GET", "POST"],
   cors: { origin: "*" }
 });
-console.log(process.env.PORT);
 
-var app = express();
-var server = http.createServer(app);
 
 app.use(cors());
 app.use(express.json());
-
 var PORT = process.env.PORT;
+
+io.on("connection", (socket) => {
+  console.log("socket id", socket.id);
+  socket.on("send_message", (message) => {
+    console.log("message socket ----->", message);
+    io.emit("receive_message", message);
+  });
+});
 
 app.use("/auth", authRouter);
 app.use("/users", userRouter);
@@ -78,7 +84,7 @@ app.patch("/:id", async function (req, res) {
   });
 });
 
-server.listen(PORT, function () {
+httpServer.listen(PORT, function () {
   console.log("server is running");
 });
 

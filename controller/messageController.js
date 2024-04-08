@@ -1,6 +1,5 @@
 const { MessageModal } = require("../modals/messageModal.js");
 const OpenAI = require("openai");
-const { io } = require("../index.js");
 
 const addMessage = async (req, res) => {
   const {

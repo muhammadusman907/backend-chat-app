@@ -19,7 +19,9 @@ const authSchema = new Schema({
 });
 
 const AuthModal = model("users", authSchema);
-module.exports = AuthModal;
+module.exports = {
+ AuthModal,
+};
 
 //   userName ,
 //   signupEmail ,

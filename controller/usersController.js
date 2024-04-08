@@ -1,4 +1,4 @@
-const AuthModal = require("../modals/authModal.js");
+const { AuthModal } = require("../modals/authModal.js");
 
 const getUsers = async (req, res) => {
   try {

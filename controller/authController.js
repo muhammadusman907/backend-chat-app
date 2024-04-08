@@ -1,10 +1,10 @@
-const AuthModal = require("./../modals/authModal.js").default;
+const {AuthModal} = require("./../modals/authModal.js");
 const bcrypt = require("bcrypt");
 const Joi = require("joi");
 const jwt = require("jsonwebtoken");
 
 const saltRounds = 10;
-
+// ************************** RIGISTER
 const register = async (req, res) => {
   console.log(req.body);
   const { userName, signupEmail, signupPassword } = req.body;
@@ -58,9 +58,10 @@ const register = async (req, res) => {
     }
   }
 };
-
+//  *********************** LOGIN
 const login = async (req, res) => {
   const { loginEmail, loginPassword } = req.body;
+  console.log(loginEmail, loginPassword);
   const userSchema = Joi.object({
     loginEmail: Joi.string()
       .email({
@@ -75,9 +76,9 @@ const login = async (req, res) => {
     res.status(400).send({ status: validateResult.error.details[0].message });
     console.error("Validation error:", validateResult.error.details[0].message);
   } else {
-    const userExist = await AuthModal.findOne({ email: loginEmail }).then(
-      (res) => res.toObject()
-    );
+    console.log(AuthModal);
+  const userExist = await AuthModal.findOne({ email: loginEmail }).then(res => res.toObject())
+  
     if (userExist) {
       const matchPassword = await bcrypt.compare(
         loginPassword,
@@ -86,7 +87,7 @@ const login = async (req, res) => {
       if (matchPassword) {
         delete userExist.password;
         const token = jwt.sign({ id: userExist._id }, "hello");
-        res.send({
+        res.status(200).send({
           userExist,
           token,
           status: "Logged in successfully",
