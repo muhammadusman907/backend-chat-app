@@ -1,5 +1,6 @@
-import mongoose from "../db/index.js";
-const { Schema, model } = mongoose;
+const mongoose = require("../db/index.js");
+const Schema = mongoose.Schema;
+const model = mongoose.model;
 
 const messageSchema = new Schema(
   {
@@ -16,4 +17,4 @@ const messageSchema = new Schema(
 );
 
 const MessageModal = model("messages", messageSchema);
-export { MessageModal };
+exports.MessageModal = MessageModal;

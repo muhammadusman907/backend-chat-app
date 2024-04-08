@@ -1,7 +1,11 @@
-import express from "express";
-import { addMessage, getMessages } from "../controller/messageController.js";
-import { DiscussServiceClient } from "@google-ai/generativelanguage";
-import { GoogleAuth } from "google-auth-library";
+const express = require("express");
+const {
+  addMessage,
+  getMessages,
+} = require("../controller/messageController.js");
+const { DiscussServiceClient } = require("@google-ai/generativelanguage");
+const { GoogleAuth } = require("google-auth-library");
+
 const messageRouter = express.Router();
 
 const MODEL_NAME = "models/chat-bison-001";
@@ -10,6 +14,11 @@ const API_KEY = "AIzaSyB-u1rkOT2v8wXEowPK8KCDto46z06Ja64";
 const client = new DiscussServiceClient({
   authClient: new GoogleAuth().fromAPIKey(API_KEY),
 });
+
+messageRouter.post("/add_message", addMessage);
+messageRouter.get("/get_message:id", getMessages);
+
+module.exports = { messageRouter };
 
 // async function main() {
 //   let first = "Tell me a one short animal fact.";
@@ -37,9 +46,6 @@ const client = new DiscussServiceClient({
 //   console.log("Palm:\n\n", secondResult[0].candidates[0].content, "\n\n");
 // }
 
-messageRouter.post("/add_message", addMessage);
-messageRouter.get("/get_message:id", getMessages);
-
 // messageRouter.post("/chat", async (req, res) => {
 //   console.log(req?.body?.body?.question);
 //   let first = req?.body?.body?.question;
@@ -57,4 +63,3 @@ messageRouter.get("/get_message:id", getMessages);
 //   });
 
 // });
-export { messageRouter };

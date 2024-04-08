@@ -1,25 +1,26 @@
-import express from "express";
-import mongoose from "../db/index.js";
-const { Schema, model } = mongoose;
+const mongoose = require("../db/index.js");
+const Schema = mongoose.Schema;
+const model = mongoose.model;
 
 const authSchema = new Schema({
   name: {
     type: String,
-    require: true,
+    required: true,
   },
   email: {
     type: String,
     unique: true,
-    require: true,
+    required: true,
   },
   password: {
     type: String,
-    require: true,
+    required: true,
   },
 });
 
 const AuthModal = model("users", authSchema);
-export default AuthModal;
+module.exports = AuthModal;
+
 //   userName ,
 //   signupEmail ,
 //   signupPassword

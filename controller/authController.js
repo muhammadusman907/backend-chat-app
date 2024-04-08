@@ -1,8 +1,10 @@
-import AuthModal from "./../modals/authModal.js";
-import bcrypt from "bcrypt";
-import Joi from "joi";
-import jwt from "jsonwebtoken";
+const AuthModal = require("./../modals/authModal.js").default;
+const bcrypt = require("bcrypt");
+const Joi = require("joi");
+const jwt = require("jsonwebtoken");
+
 const saltRounds = 10;
+
 const register = async (req, res) => {
   console.log(req.body);
   const { userName, signupEmail, signupPassword } = req.body;
@@ -25,9 +27,6 @@ const register = async (req, res) => {
       validationResult.error.details[0].message
     );
   } else {
-    // res.send({
-    //   // status: "Validation successful",
-    // });
     const hashPassword = await bcrypt.hash(signupPassword, saltRounds);
     try {
       const userExist = await AuthModal.findOne({ email: signupEmail });
@@ -42,7 +41,6 @@ const register = async (req, res) => {
           email: signupEmail,
           password: hashPassword,
         }).then((res) => res.toObject());
-        // // const newUser = await addUser.save() ;
         console.log(addUser._id);
         const token = jwt.sign({ id: addUser._id }, "hello");
         res.status(201).send({
@@ -59,14 +57,10 @@ const register = async (req, res) => {
       });
     }
   }
-  // }
 };
-// login with mogoodb
+
 const login = async (req, res) => {
-  // console.log(req.body);
-  //  get value frontend
   const { loginEmail, loginPassword } = req.body;
-  // console.log(loginEmail, loginPassword);
   const userSchema = Joi.object({
     loginEmail: Joi.string()
       .email({
@@ -90,7 +84,6 @@ const login = async (req, res) => {
         userExist.password
       );
       if (matchPassword) {
-        console.log(typeof userExist);
         delete userExist.password;
         const token = jwt.sign({ id: userExist._id }, "hello");
         res.send({
@@ -111,4 +104,4 @@ const login = async (req, res) => {
   }
 };
 
-export { register, login };
+module.exports = { register, login };

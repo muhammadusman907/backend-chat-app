@@ -1,6 +1,7 @@
-import { MessageModal } from "../modals/messageModal.js";
-import OpenAI from "openai";
-import { io } from "../index.js";
+const { MessageModal } = require("../modals/messageModal.js");
+const OpenAI = require("openai");
+const { io } = require("../index.js");
+
 const addMessage = async (req, res) => {
   const {
     message,
@@ -10,36 +11,35 @@ const addMessage = async (req, res) => {
     currentUserDetail,
     senderUserDetail,
   } = req.body.body;
-  // console.log(req.body.body);
-  const sendMessage = await MessageModal.create({
-    message,
-    currentUserId,
-    margeId,
-    senderUserId,
-    currentUserDetail,
-    senderUserDetail,
-  });
-  res.send({ status: "add message successfully", sendMessage });
-};
-const getMessages = async (req, res) => {
-  // console.log(req.params.id);
- 
-  // const realtimeMessage = MessageModal.watch();
-  // realtimeMessage.on( "change", (data) => {
-  //   console.log("realtime data ----->", data)
-  //       io.emit("MESSAGE", data);
-  //  });
-  // res.send({realtimeMessage});
-  const getMessages = await MessageModal.find({ margeId: req.params.id });
 
-  if (getMessages) {
-    res.status(200).send({
-      getMessages,
+  try {
+    const sendMessage = await MessageModal.create({
+      message,
+      currentUserId,
+      margeId,
+      senderUserId,
+      currentUserDetail,
+      senderUserDetail,
     });
-  } else {
-    res.status(400).send({
-      messges: "not found",
-    });
+    res.send({ status: "add message successfully", sendMessage });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: "Internal server error" });
   }
 };
-export { addMessage, getMessages };
+
+const getMessages = async (req, res) => {
+  try {
+    const getMessages = await MessageModal.find({ margeId: req.params.id });
+    if (getMessages) {
+      res.status(200).send({ getMessages });
+    } else {
+      res.status(400).send({ messges: "not found" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: "Internal server error" });
+  }
+};
+
+module.exports = { addMessage, getMessages };

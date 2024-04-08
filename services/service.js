@@ -1,13 +1,11 @@
-import jwt from "jsonwebtoken";
+const jwt = require("jsonwebtoken");
+
 const verifyTokan = async (req, res, next) => {
-  // console.log(req.headers.authorization);
   try {
     const authHeader = req.headers.authorization;
     const token = authHeader.split(" ")[1];
-    //  console.log(token);
     jwt.verify(token, "hello", function (err, decoded) {
       if (err) {
-        // console.log(decoded.foo);
         res.status(400).send({
           status: err,
         });
@@ -21,4 +19,5 @@ const verifyTokan = async (req, res, next) => {
     });
   }
 };
-export { verifyTokan };
+
+module.exports = { verifyTokan };
