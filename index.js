@@ -11,9 +11,8 @@ require("dotenv/config");
 const httpServer = require("http").createServer(app);
 const io = require("socket.io")(httpServer, {
   methods: ["GET", "POST"],
-  cors: { origin: "*" }
+  cors: { origin: "*" },
 });
-
 
 app.use(cors());
 app.use(express.json());
@@ -21,9 +20,12 @@ var PORT = process.env.PORT;
 
 io.on("connection", (socket) => {
   console.log("socket id", socket.id);
+
   socket.on("send_message", (message) => {
-    console.log("message socket ----->", message);
-    io.emit("receive_message", message);
+    if (message) {
+      console.log("message socket ----->", message);
+      io.emit("receive_message", message);
+    }
   });
 });
 
@@ -87,4 +89,3 @@ app.patch("/:id", async function (req, res) {
 httpServer.listen(PORT, function () {
   console.log("server is running");
 });
-
