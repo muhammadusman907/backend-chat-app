@@ -42,9 +42,10 @@ const register = async (req, res) => {
           password: hashPassword,
         }).then((res) => res.toObject());
         console.log(addUser._id);
+        delete addUser.password ;
         const token = jwt.sign({ id: addUser._id }, "hello");
         res.status(201).send({
-          userExist,
+          addUser,
           token,
           status: "User added successfully",
         });
