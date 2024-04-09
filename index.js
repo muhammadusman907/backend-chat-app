@@ -11,12 +11,12 @@ require("dotenv/config");
 const httpServer = require("http").createServer(app);
 const io = require("socket.io")(httpServer, {
   methods: ["GET", "POST"],
-  cors: { origin: "http://localhost:5173" },
+  cors: { origin: "https://usman-chat-app-mern-2xzn.vercel.app" },
 });
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://usman-chat-app-mern-2xzn.vercel.app",
     credentials: true,
   })
 );
