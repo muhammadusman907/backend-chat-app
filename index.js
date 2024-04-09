@@ -10,8 +10,8 @@ require("dotenv/config");
 
 const httpServer = require("http").createServer(app);
 const io = require("socket.io")(httpServer, {
-  methods: ["GET", "POST"],
-  cors: { origin: "*" },
+  methods: ["GET", "POST" ],
+  cors: { origin: "http://localhost:5173" },
 });
 
 app.use(cors());
