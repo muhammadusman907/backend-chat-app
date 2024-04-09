@@ -10,11 +10,16 @@ require("dotenv/config");
 
 const httpServer = require("http").createServer(app);
 const io = require("socket.io")(httpServer, {
-  methods: ["GET", "POST" ],
+  methods: ["GET", "POST"],
   cors: { origin: "http://localhost:5173" },
 });
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 app.use(express.json());
 var PORT = process.env.PORT;
 
